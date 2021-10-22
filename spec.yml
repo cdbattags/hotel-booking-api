@@ -176,11 +176,14 @@ components:
         roomsPricings:
           type: array
           items:
-            type: array
-            items:
-              type: string
-              format: uuid
-              minimum: 2
+            type: object
+            properties:
+              roomId:
+                type: string
+                format: uuid
+              pricingId:
+                type: string
+                format: uuid
         start:
           type: string
           format: timestamp
