@@ -1,0 +1,218 @@
+openapi: 3.0.0
+info:
+  title: Booking API
+  description: Here's a hotel booking example.
+  version: 0.1.0
+paths:
+  /users:
+    post:
+      summary: Creates/updates a user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/users"
+      responses:
+        '403':
+          description: Forbidden.
+        '200':
+          description: A user object.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/users"
+  /locations:
+    post:
+      summary: Creates/updates a location.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/locations"
+      responses:
+        '403':
+          description: Forbidden.
+        '200':
+          description: A location object.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/locations"
+  /rooms:
+    post:
+      summary: Creates/updates a room.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/rooms"
+      responses:
+        '403':
+          description: Forbidden.
+        '200':
+          description: A room object.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref:  "#/components/schemas/rooms"
+  /reservations:
+    post:
+      summary: Creates/updates a reservation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/reservations"
+      responses:
+        '403':
+          description: Forbidden.
+        '200':
+          description: A reservation object.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref:  "#/components/schemas/reservations"
+  /pricings:
+    post:
+      summary: Creates/updates a pricing.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: "#/components/schemas/pricings"
+      responses:
+        '403':
+          description: Forbidden.
+        '200':
+          description: A pricing object.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref:  "#/components/schemas/pricings"
+components:
+  schemas:
+    users:
+      properties:
+        id:
+          type: string
+          format: uuid
+        firstName:
+          type: string
+        lastName:
+          type: string
+        phone:
+          type: string
+        type:
+          type: string
+          enum: [guest, employee]
+        permissions:
+          $ref: '#/components/schemas/permissions'
+    permissions:
+      properties:
+        pricing:
+          type: boolean
+        booking:
+          type: boolean
+        user_edit:
+          type: boolean
+        employee_edit:
+          type: boolean
+    locations:
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+    rooms:
+      properties:
+        id:
+          type: string
+          format: uuid
+        label:
+          type: string
+        floor:
+          type: number
+        type:
+          type: string
+          enum: [suite, king, queen, double, etc]
+        view:
+          type: string
+          enum: [pool, ocean, etc]
+    reservations:
+      properties:
+        id:
+          type: string
+          format: uuid
+        guests:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              format: uuid
+        location:
+          type: string
+          format: uuid
+        roomsPricings:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              format: uuid
+        start:
+          type: string
+          format: timestamp
+        end:
+          type: string
+          format: timestamp
+    reservationEvents:
+      properties:
+        id:
+          type: string
+          format: uuid
+        reservationId:
+          type: string
+          format: uuid
+        bookingAgentId:
+          type: string
+          format: uuid
+        guestId:
+          type: string
+          format: uuid
+        eventType:
+          type: string
+          enum: [interest, hold, reserve, archive]
+        createdAt:
+          type: string
+          format: timestamp
+    pricings:
+      properties:
+        id:
+          type: string
+          format: uuid
+        roomId:
+          type: string
+          format: uuid
+        price:
+          type: number
